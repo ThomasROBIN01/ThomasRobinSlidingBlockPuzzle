@@ -38,7 +38,7 @@ namespace ThomasRobinSlidingBlockPuzzle
         {
             // bool isPuzzleComplete = false;
 
-            //if (puzzle == puzzleCompleted)      // Arrays cannot be compared by their contents using ==, as this checks
+            //if (puzzle == puzzleCompleted)      // Arrays cannot be compared by their contents using '==', as this checks
             //                                    // whether they reference the same object in memory.
             //                                    // Therefore, each element must be compared individually.
             //{
@@ -105,6 +105,14 @@ namespace ThomasRobinSlidingBlockPuzzle
             {
                 Debug.WriteLine("This tile is not adjacent to the empty tile and cannot be moved.");
             }
+        }
+
+        public void ShufflePuzzle ()
+        {
+            // Create a random number of suffling iterations, between 20 and 40.
+            int randomIterations = Random.Shared.Next(20, 41);
+
+
         }
 
     }
