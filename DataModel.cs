@@ -24,5 +24,27 @@ namespace ThomasRobinSlidingBlockPuzzle
             // 0 represents the empty tile.
             puzzleTiles = puzzleCompleted;
         }
+
+        public bool isPuzzleComplete (int[,] puzzle)
+        {
+            bool isPuzzleComplete = false;
+
+            if (puzzle == puzzleCompleted)
+            {
+                isPuzzleComplete = true;
+            }
+
+            return isPuzzleComplete;
+        }
+
+        public int GetTile (int row, int column)
+        {
+            int tile;
+
+            tile = puzzleTiles[row, column];
+
+            return tile;
+        }
+
     }
 }
