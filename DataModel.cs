@@ -23,24 +23,47 @@ namespace ThomasRobinSlidingBlockPuzzle
 
         public DataModel ()
         {
-            // Initialise the puzzle with an independent copy of the solved configuration.         
-            puzzleTiles = puzzleCompleted;
+            // Initialise the puzzle with an independent copy of the solved configuration:
+            // puzzleTiles = puzzleCompleted;       // This doesn't create a new array, instead, both variables reference the same array in memory.
+            puzzleTiles = (int[,])puzzleCompleted.Clone();      // Need to clone the puzzleCompleted, as the above doesn't work
+                                                                // The cast (int[,]) is necessary because Clone() returns an object,
+                                                                // and we want to assign it to an int[,].
 
             // The empty tile initially occupies the top-left position at 0,0:
             emptyRow = 0;
             emptyColumn = 0;
         }
 
-        public bool IsPuzzleComplete (int[,] puzzle)
+        public bool IsPuzzleComplete ()
         {
-            bool isPuzzleComplete = false;
+            // bool isPuzzleComplete = false;
 
-            if (puzzle == puzzleCompleted)
+            //if (puzzle == puzzleCompleted)      // Arrays cannot be compared by their contents using ==, as this checks
+            //                                    // whether they reference the same object in memory.
+            //                                    // Therefore, each element must be compared individually.
+            //{
+            //    isPuzzleComplete = true;
+            //}
+
+            // Compare each tile's position with the completed puzzle configuration.
+            // If any tile is in the wrong position, this means the puzzle is not complete.
+
+            // Iterate through each row.
+            for (int row = 0; row < 3; row++)
             {
-                isPuzzleComplete = true;
+                // Iterate through each column within the current row.
+                for (int column = 0; column <3; column++)
+                {
+                    if (puzzleTiles[row, column] != puzzleCompleted[row, column])
+                    {
+                        // If a mismatch is found, the puzzle is not complete.
+                        // Return immediately, as there is no need to check the remaining tiles.
+                        return false;
+                    }
+                }
             }
 
-            return isPuzzleComplete;
+            return true;
         }
 
         public int GetTile (int selectedRow, int selectedColumn)
