@@ -21,13 +21,13 @@ namespace ThomasRobinSlidingBlockPuzzle
             {6, 7, 8},
         };
 
+        // Contructor:
         public DataModel ()
         {
             // Initialise the puzzle with an independent copy of the solved configuration:
             // puzzleTiles = puzzleCompleted;       // This doesn't create a new array, instead, both variables reference the same array in memory.
             puzzleTiles = (int[,])puzzleCompleted.Clone();      // Need to clone the puzzleCompleted, as the above doesn't work
-                                                                // The cast (int[,]) is necessary because Clone() returns an object,
-                                                                // and we want to assign it to an int[,].
+                                                                // The cast (int[,]) is necessary because Clone() returns an object, and we want to assign it to an int[,].
 
             // The empty tile initially occupies the top-left position at 0,0:
             emptyRow = 0;
@@ -45,14 +45,15 @@ namespace ThomasRobinSlidingBlockPuzzle
             //    isPuzzleComplete = true;
             //}
 
+
             // Compare each tile's position with the completed puzzle configuration.
             // If any tile is in the wrong position, this means the puzzle is not complete.
 
-            // Iterate through each row.
+            // Iterate through each row...
             for (int row = 0; row < 3; row++)
             {
-                // Iterate through each column within the current row.
-                for (int column = 0; column <3; column++)
+                // ... Iterate through each column within the current row.
+                for (int column = 0; column < 3; column++)
                 {
                     if (puzzleTiles[row, column] != puzzleCompleted[row, column])
                     {
@@ -63,6 +64,7 @@ namespace ThomasRobinSlidingBlockPuzzle
                 }
             }
 
+            // Will get here only if all tiles are the same as in the solved puzzle
             return true;
         }
 
@@ -85,7 +87,7 @@ namespace ThomasRobinSlidingBlockPuzzle
             int rowGapWith0 = Math.Abs(selectedRow - emptyRow);
             int columnGapWith0 = Math.Abs(selectedColumn - emptyColumn);
 
-            int manhattanDistance = rowGapWith0 * columnGapWith0;
+            int manhattanDistance = rowGapWith0 + columnGapWith0;
 
 
             if (manhattanDistance == 1)      // the selected tile is adjacent to the empty tile
@@ -109,10 +111,67 @@ namespace ThomasRobinSlidingBlockPuzzle
 
         public void ShufflePuzzle ()
         {
-            // Create a random number of suffling iterations, between 20 and 40.
+            // Reset the puzzle to its solved configuration.
+            puzzleTiles = (int[,])puzzleCompleted.Clone();      // same as in the constructor
+
+            // Reset the empty tile's position to the top-left corner.
+            emptyRow = 0;
+            emptyColumn = 0;
+
+
+            // Randomly choose between 20 and 40 shuffle moves.
             int randomIterations = Random.Shared.Next(20, 41);
 
+            // Store the previous empty position to prevent immediately reversing a move.
+            // Initialise to (-1, -1), so no valid position is excluded on the first move.
+            int previousTurnRow = -1;
+            int previousTurnColumn = -1;
 
+
+            // Keep shuffling until the puzzle is no longer in its solved configuration.
+            while (IsPuzzleComplete())
+            {
+                // Shuffle the puzzle for a number of iterations = randomIterations
+                for (int i = 0; i < randomIterations; i++)
+                {
+                    // Check what are the possible adjacent tiles where the empty tile (0) could move and count them
+
+                    // Store the coordinates of all valid adjacent tiles as a list of tuples:
+                    List<(int row, int column)> adjacentTiles = new();
+
+
+                    // Iterate through each row...
+                    for (int row = 0; row < 3; row++)
+                    {
+                        // ... Iterate through each column within the current row.
+                        for (int column = 0; column < 3; column++)
+                        {
+                            // Calculate the 'Manhattan distance' between the selected tile and the empty tile.
+                            int rowGapWith0 = Math.Abs(row - emptyRow);
+                            int columnGapWith0 = Math.Abs(column - emptyColumn);
+
+                            int manhattanDistance = rowGapWith0 + columnGapWith0;
+
+                            // Only include tiles adjacent to the empty position,
+                            // excluding the previous empty position to prevent immediate reversals.
+                            if (manhattanDistance == 1 && (row != previousTurnRow || column != previousTurnColumn))      // manhattanDistance == 1: adjacent to the empty tile
+                            {
+                                adjacentTiles.Add((row, column));
+                            }
+                        }
+                    }
+
+                    // Select a random position among the adjacent tiles available:
+                    int randomAdjacentTile = Random.Shared.Next(0, adjacentTiles.Count);
+
+                    // Save the current empty position before moving it:
+                    previousTurnRow = emptyRow;
+                    previousTurnColumn = emptyColumn;
+
+                    // Move the selected tile into the empty position:
+                    MoveTile(adjacentTiles[randomAdjacentTile].row, adjacentTiles[randomAdjacentTile].column);
+                }
+            }
         }
 
     }
