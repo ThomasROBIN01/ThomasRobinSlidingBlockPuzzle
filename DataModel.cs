@@ -80,15 +80,7 @@ namespace ThomasRobinSlidingBlockPuzzle
         public void MoveTile (int selectedRow, int selectedColumn)
         {
             // Calculate the 'Manhattan distance' between the selected tile and the empty tile.
-            // Manhattan distance is the sum of the absolute differences between their row and column coordinates,
-            // representing the distance when moving only horizontally or vertically (no diagonal movement).
-            // A distance of 1 means the tiles are directly adjacent and can be swapped.
-
-            int rowGapWith0 = Math.Abs(selectedRow - emptyRow);
-            int columnGapWith0 = Math.Abs(selectedColumn - emptyColumn);
-
-            int manhattanDistance = rowGapWith0 + columnGapWith0;
-
+            int manhattanDistance = CalculateManhattanDistance(selectedRow, selectedColumn);
 
             if (manhattanDistance == 1)      // the selected tile is adjacent to the empty tile
             {
@@ -147,10 +139,7 @@ namespace ThomasRobinSlidingBlockPuzzle
                         for (int column = 0; column < 3; column++)
                         {
                             // Calculate the 'Manhattan distance' between the selected tile and the empty tile.
-                            int rowGapWith0 = Math.Abs(row - emptyRow);
-                            int columnGapWith0 = Math.Abs(column - emptyColumn);
-
-                            int manhattanDistance = rowGapWith0 + columnGapWith0;
+                            int manhattanDistance = CalculateManhattanDistance(row, column); ;
 
                             // Only include tiles adjacent to the empty position,
                             // excluding the previous empty position to prevent immediate reversals.
@@ -172,6 +161,21 @@ namespace ThomasRobinSlidingBlockPuzzle
                     MoveTile(adjacentTiles[randomAdjacentTile].row, adjacentTiles[randomAdjacentTile].column);
                 }
             }
+        }
+
+        private int CalculateManhattanDistance(int row, int column)
+        {
+            // Calculate the 'Manhattan distance' between the selected tile and the empty tile.
+            // Manhattan distance is the sum of the absolute differences between their row and column coordinates,
+            // representing the distance when moving only horizontally or vertically (no diagonal movement).
+            // A distance of 1 means the tiles are directly adjacent and can be swapped.
+
+            int rowGapWith0 = Math.Abs(row - emptyRow);
+            int columnGapWith0 = Math.Abs(column - emptyColumn);
+
+            int manhattanDistance = rowGapWith0 + columnGapWith0;
+
+            return manhattanDistance;
         }
 
     }

@@ -74,7 +74,7 @@
             }
         }
 
-        private ImageSource GetTileImageSource (int tileNumber)
+        private ImageSource GetTileImageSource(int tileNumber)
         {
             switch (tileNumber)
             {
@@ -124,5 +124,23 @@
             puzzle.ShufflePuzzle();
             UpdatePuzzle(puzzle);
         }
+
+        // Add a sliding function on each image which will do:
+
+        // Use the CalculateManhattanDistance function to check if the selected image is adjacent to the empty tile.
+            // if not, the image cannot be moved / slided
+            // if it is adjacent:
+                // calculate selectedRow - emptyRow
+                    // if >0 => allow to slide to the left
+                    // if <0 => slide to the right
+                // calculate selectedColumn - emptyColumn
+                    // if >0 => allow to slide to the bottom
+                    // if <0 => slide up
+
+        // for the sliding: allow to slide until the end of the next image (ditance width or height // should be the same as they're square)
+        // Only launch the MoveTile function if the slided image has been released and if it is like more than 50% (or more) on the next image
+        // then launch MoveTile function followed by Update, and followed by IsPuzzleComplete check
+
+        // Need also a Win function, that will use the IsPuzzleComplete function to check when the puzzle is complete after each move, and will display a win message, probably on top of the UI.
     }
 }
