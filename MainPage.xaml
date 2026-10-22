@@ -8,6 +8,10 @@
             Padding="30,0"
             Spacing="25">
 
+            <Button
+                Text="Shuffle Puzzle"
+                Clicked="Shuffle"/>
+
             <Grid
                 x:Name="PuzzleGrid"
                 ColumnDefinitions="*, *, *"
@@ -22,10 +26,9 @@
                     Aspect="AspectFit" />
 
                 <Image
-                    x:Name="TopCenter"
+                    x:Name="TopCentre"
                     Grid.Row="0"
                     Grid.Column="1"
-                    Source="top_middle.png"
                     Aspect="AspectFit" >
 
                     <!--<Image.GestureRecognizers>
@@ -37,49 +40,42 @@
                     x:Name="TopRight"
                     Grid.Row="0"
                     Grid.Column="2"
-                    Source="top_right.png"
                     Aspect="AspectFit" />
 
                 <Image
                     x:Name="MiddleLeft"
                     Grid.Row="1"
                     Grid.Column="0"
-                    Source="centre_left.png"
                     Aspect="AspectFit" />
 
                 <Image
-                    x:Name="MiddleCenter"
+                    x:Name="MiddleCentre"
                     Grid.Row="1"
                     Grid.Column="1"
-                    Source="centre_middle.png"
                     Aspect="AspectFit" />
 
                 <Image
                     x:Name="MiddleRight"
                     Grid.Row="1"
                     Grid.Column="2"
-                    Source="centre_right.png"
                     Aspect="AspectFit" />
 
                 <Image
                     x:Name="BottomLeft"
                     Grid.Row="2"
                     Grid.Column="0"
-                    Source="bottom_left.png"
                     Aspect="AspectFit" />
                 
                 <Image
-                    x:Name="BottomCenter"
+                    x:Name="BottomCentre"
                     Grid.Row="2"
                     Grid.Column="1"
-                    Source="bottom_middle.png"
                     Aspect="AspectFit" />
                 
                 <Image
                     x:Name="BottomRight"
                     Grid.Row="2"
                     Grid.Column="2"
-                    Source="bottom_right.png"
                     Aspect="AspectFit" />
             </Grid>
 
