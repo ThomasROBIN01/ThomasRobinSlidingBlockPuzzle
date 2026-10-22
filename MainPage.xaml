@@ -18,38 +18,44 @@
                 <Image
                     x:Name="TopLeft"
                     Grid.Row="0"
+                    Grid.Column="0"
+                    Aspect="AspectFit" />
+
+                <Image
+                    x:Name="TopCenter"
+                    Grid.Row="0"
                     Grid.Column="1"
                     Source="top_middle.png"
                     Aspect="AspectFit" >
 
-                    <Image.GestureRecognizers>
+                    <!--<Image.GestureRecognizers>
                         <PanGestureRecognizer PanUpdated="OnTilePanned" />
-                    </Image.GestureRecognizers>
+                    </Image.GestureRecognizers>-->
                 </Image>
 
                 <Image
-                    x:Name="TopCenter"
+                    x:Name="TopRight"
                     Grid.Row="0"
                     Grid.Column="2"
                     Source="top_right.png"
                     Aspect="AspectFit" />
 
                 <Image
-                    x:Name="TopRight"
+                    x:Name="MiddleLeft"
                     Grid.Row="1"
                     Grid.Column="0"
                     Source="centre_left.png"
                     Aspect="AspectFit" />
 
                 <Image
-                    x:Name="MiddleLeft"
+                    x:Name="MiddleCenter"
                     Grid.Row="1"
                     Grid.Column="1"
                     Source="centre_middle.png"
                     Aspect="AspectFit" />
 
                 <Image
-                    x:Name="MiddleCenter"
+                    x:Name="MiddleRight"
                     Grid.Row="1"
                     Grid.Column="2"
                     Source="centre_right.png"
