@@ -7,6 +7,77 @@
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
+
+            <Grid
+                x:Name="PuzzleGrid"
+                ColumnDefinitions="*, *, *"
+                RowDefinitions="*, *, *"
+                RowSpacing="2"
+                ColumnSpacing="2">
+
+                <Image
+                    x:Name="TopLeft"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Source="top_middle.png"
+                    Aspect="AspectFit" >
+
+                    <Image.GestureRecognizers>
+                        <PanGestureRecognizer PanUpdated="OnTilePanned" />
+                    </Image.GestureRecognizers>
+                </Image>
+
+                <Image
+                    x:Name="TopCenter"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Source="top_right.png"
+                    Aspect="AspectFit" />
+
+                <Image
+                    x:Name="TopRight"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Source="centre_left.png"
+                    Aspect="AspectFit" />
+
+                <Image
+                    x:Name="MiddleLeft"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Source="centre_middle.png"
+                    Aspect="AspectFit" />
+
+                <Image
+                    x:Name="MiddleCenter"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Source="centre_right.png"
+                    Aspect="AspectFit" />
+
+                <Image
+                    x:Name="BottomLeft"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Source="bottom_left.png"
+                    Aspect="AspectFit" />
+                
+                <Image
+                    x:Name="BottomCenter"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Source="bottom_middle.png"
+                    Aspect="AspectFit" />
+                
+                <Image
+                    x:Name="BottomRight"
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Source="bottom_right.png"
+                    Aspect="AspectFit" />
+            </Grid>
+
+            <!--
             <Image
                 Source="dotnet_bot.png"
                 HeightRequest="185"
@@ -30,6 +101,7 @@
                 SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="OnCounterClicked"
                 HorizontalOptions="Fill" />
+             -->
         </VerticalStackLayout>
     </ScrollView>
 

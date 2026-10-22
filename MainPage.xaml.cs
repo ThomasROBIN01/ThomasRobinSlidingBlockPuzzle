@@ -2,23 +2,49 @@
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
+        private DataModel puzzle;
 
         public MainPage()
         {
             InitializeComponent();
+
+            puzzle = new DataModel();
+
+            UpdatePuzzle(puzzle);
         }
 
-        private void OnCounterClicked(object? sender, EventArgs e)
+        private void UpdatePuzzle(DataModel puzzle)
         {
-            count++;
+            int gridCounter = 0;
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
+            // Iterate through each row...
+            for (int row = 0; row < 3; row++)
+            {
+                // ... Iterate through each column within the current row.
+                for (int column = 0; column < 3; column++)
+                {
+                    int tileNumber = puzzle.GetTile(row, column);
 
-            SemanticScreenReader.Announce(CounterBtn.Text);
+                    switch (gridCounter)
+                    {
+                        case 0:
+
+                            break;
+
+                    }
+
+                    gridCounter++;
+                }
+            }
+        }
+
+        private void ChangeTileImage (int tileNumber)
+        {
+            switch (tileNumber)
+            {
+                case 0:
+                    break;
+            }
         }
     }
 }
