@@ -12,6 +12,10 @@ namespace ThomasRobinSlidingBlockPuzzle
         private int emptyRow;
         private int emptyColumn;
 
+        // Read only properties that return the empty row and column:
+        public int EmptyRow => emptyRow;
+        public int EmptyColumn => emptyColumn;
+
         // Stores the solved puzzle configuration for comparison.
         // 0 represents the empty tile.
         private int[,] puzzleCompleted =
@@ -163,7 +167,7 @@ namespace ThomasRobinSlidingBlockPuzzle
             }
         }
 
-        private int CalculateManhattanDistance(int row, int column)
+        public int CalculateManhattanDistance(int row, int column)
         {
             // Calculate the 'Manhattan distance' between the selected tile and the empty tile.
             // Manhattan distance is the sum of the absolute differences between their row and column coordinates,

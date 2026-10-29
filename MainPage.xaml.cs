@@ -15,6 +15,7 @@
 
         private void UpdatePuzzle(DataModel puzzle)
         {
+            // We are using a counter to check in which tile we are, starting in tile 0:
             int gridCounter = 0;
 
             // Iterate through each row...
@@ -69,6 +70,7 @@
                             break;
                     }
 
+                    // Increment to next tile
                     gridCounter++;
                 }
             }
@@ -78,6 +80,7 @@
         {
             switch (tileNumber)
             {
+                // Reference to visualise where each tile normally is 
                 // { 0, 1, 2 }
                 // { 3, 4, 5 }
                 // { 6, 7, 8 }
@@ -125,17 +128,100 @@
             UpdatePuzzle(puzzle);
         }
 
+        private void ImageSliding (object sender, PanUpdatedEventArgs e)        // PanUpdatedEventArgs provides the information specific to a pan gesture,
+                                                                                // including the total movement along both axes (e.TotalY and e.TotalX).
+        {
+            // Cast the sender as an image as the function is only linked to images
+            Image tileImage = (Image)sender;
+
+            // Get the row and column of the selected tile:
+            int selectedRow = Grid.GetRow(tileImage);
+            int selectedColumn = Grid.GetColumn(tileImage);
+
+            // Use the CalculateManhattanDistance function to check if the selected image is adjacent to the empty tile.
+            if (puzzle.CalculateManhattanDistance(selectedRow, selectedColumn) == 1)
+            {
+                // Calculate the direction for the selected tile to move
+                int rowDirection = puzzle.EmptyRow - selectedRow;           // >0 : the selected tile has to move down   /   <0: the selected tile has to move up
+                int columnDirection = puzzle.EmptyColumn - selectedColumn;  // >0 : the selected tile has to move right   /   <0: the selected tile has to left
+
+                // if rowDirection = - 1, the empty tile is above the selected tile, so the selected tile can slide up.
+                if (rowDirection == - 1)
+                {
+                    tileImage.TranslationY = Math.Clamp(e.TotalY, (- tileImage.Height - PuzzleGrid.ColumnSpacing), 0);      // Math.Clamp(value, minimum, maximum) ensures that the value stays within the specified range.
+
+                    if (tileImage.TranslationY < 0.75 * (-tileImage.Height - PuzzleGrid.ColumnSpacing))
+                    {
+                        puzzle.MoveTile(selectedRow, selectedColumn);
+                        UpdatePuzzle(puzzle);
+                    }
+                }
+                // if rowDirection = 1, the empty tile is below the selected tile, so the selected tile can slide down.
+                else if (rowDirection == 1)
+                {                    
+                    tileImage.TranslationY = Math.Clamp(e.TotalY, 0, (tileImage.Height + PuzzleGrid.ColumnSpacing));    // Math.Clamp(value, minimum, maximum) ensures that the value stays within the specified range.
+
+                    if (tileImage.TranslationY > 0.75 * (tileImage.Height + PuzzleGrid.ColumnSpacing))
+                    {
+                        puzzle.MoveTile(selectedRow, selectedColumn);
+                        UpdatePuzzle(puzzle);
+                    }
+                }
+                // if rowDirection = 0 or 2/-2, no vertical movement is allowed.
+                else
+                {
+                    tileImage.TranslationY = 0;
+                }
+
+
+                // if columnDirection = -1, the empty tile is to the left of the selected tile, so the selected tile can slide left.
+                if (columnDirection == -1)
+                {                    
+                    tileImage.TranslationX = Math.Clamp(e.TotalX, (-tileImage.Width - PuzzleGrid.RowSpacing), 0);   // Math.Clamp(value, minimum, maximum) ensures that the value stays within the specified range.
+
+                    if (tileImage.TranslationX < 0.75 * (-tileImage.Width - PuzzleGrid.RowSpacing))
+                    {
+                        puzzle.MoveTile(selectedRow, selectedColumn);
+                        UpdatePuzzle(puzzle);
+                    }
+                }
+                // if columnDirection = 1, the empty tile is to the right of the selected tile, so the selected tile can slide right.
+                else if (columnDirection == 1)
+                {
+                    tileImage.TranslationX = Math.Clamp(e.TotalX, 0, (tileImage.Width + PuzzleGrid.RowSpacing));    // Math.Clamp(value, minimum, maximum) ensures that the value stays within the specified range.
+
+
+                    if (tileImage.TranslationX > 0.75 * (tileImage.Width + PuzzleGrid.RowSpacing))
+                    {
+                        puzzle.MoveTile(selectedRow, selectedColumn);
+                        UpdatePuzzle(puzzle);
+                    }
+                }
+                // if columnDirection = 0 or 2/-2, no horizontal movement is allowed.
+                else
+                {
+                    tileImage.TranslationX = 0;
+                }
+
+                // if >0 => allow to slide to the left
+                // if <0 => slide to the right
+                // calculate selectedColumn - emptyColumn
+                // if >0 => allow to slide to the bottom
+                // if <0 => slide up
+            }
+
+            // if the image is not adjacent to the empty tile, it cannot be moved / slided
+            else
+            {
+
+            }
+        }
         // Add a sliding function on each image which will do:
 
-        // Use the CalculateManhattanDistance function to check if the selected image is adjacent to the empty tile.
+        
             // if not, the image cannot be moved / slided
             // if it is adjacent:
-                // calculate selectedRow - emptyRow
-                    // if >0 => allow to slide to the left
-                    // if <0 => slide to the right
-                // calculate selectedColumn - emptyColumn
-                    // if >0 => allow to slide to the bottom
-                    // if <0 => slide up
+
 
         // for the sliding: allow to slide until the end of the next image (ditance width or height // should be the same as they're square)
         // Only launch the MoveTile function if the slided image has been released and if it is like more than 50% (or more) on the next image
